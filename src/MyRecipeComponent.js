@@ -4,23 +4,24 @@ function MyRecipeComponent ({label,image, calories, ingridients,  mealType, dish
 
 const [isVisible, setIsVisible] = useState(false);
 
-return(<div>
+return(<div className="gallery">
             
-                    <div className="container">
+                    
+                       
+                    <div className="content">
+                   <img src={image} alt="recipes" className="mainImage"/>
+                  
+
+                   
                     <h2>{label}</h2>
-                    </div>
+                   
                        
-                    <div className="container">
+                 
                     <p className="typeDish">{dishType}</p>
-                    </div>
-                       
-                    <div className="container">
-                   <img src={image} alt="recipes"/>
-                    </div>
-                        
-                        <div className="container">
+                    
+                    
                             <button  onClick={() => setIsVisible(!isVisible)} className="buttonShow">{isVisible ? "HIDE THE RECIPE" : "SHOW THE RECIPE"}</button>
-                        </div>
+                      
 
                     {isVisible && ( 
                     <ul className="container list">
@@ -33,11 +34,9 @@ return(<div>
                        
                     </ul>
 )}
-                    <div className="container">
                     <p>{calories.toFixed()} calories</p>
-                    </div>
-                        
-                    <div className="container">
+                   
+                   
                     <p>Meal type: { mealType} </p>
                     </div>
                 

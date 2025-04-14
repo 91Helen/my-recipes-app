@@ -1,3 +1,4 @@
+
 video {
 
   object-fit: cover;
@@ -17,15 +18,51 @@ video {
 }
 
 .App {
-
+  margin: 0;
     background-color: rgba(255, 255, 255, 0.5);
 
 }
-.container{
+.gallery{
   display:flex;
-justify-content: center;
+flex-wrap: wrap;
+width:100%;
+justify-content:center;
+align-items: center;
+
 }
 
+.content{
+width:20%;
+margin:15px;
+float:left;
+text-align: center;
+border-radius: 20px;
+cursor:pointer;
+padding-top: 10px;
+box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+0 10px 10px rgba(0,0,0,0.22);
+transition: .4s;
+background: #f2f2f2;
+}
+
+.content:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16),
+  0 3px 6px rgba(0,0,0,0.23);
+  transform:translate(0px, -8px)
+}
+
+.mainImage{
+  width:200px;
+  height:200px;
+  text-align: center;
+  margin:0 auto;
+  display: block;
+}
+
+p{
+  text-align: center;
+  
+}
 
 .search {
   width: 100%;
@@ -33,6 +70,7 @@ justify-content: center;
   background-color: transparent;
   color: #D5E5D5;
   box-shadow: inset 0px 0px 0px 4px #1F7D53;
+  
   }
 
   .list{
@@ -41,11 +79,19 @@ justify-content: center;
     align-items: center;
   }
 
+  ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top:0;
+    list-style: none;
+  }
+
   li{
     background-color: #D5E5D5;
-    list-style: none;
-    padding:10px;
-    margin:10px;
+    margin:2px;
+    padding-top:5px;
+   
   }
 
   h1,h2.ul,p{
@@ -64,10 +110,11 @@ justify-content: center;
   }
 
   .buttonSearch {
-    margin-top: 10px;
     border-radius: 12px;
     border: none;
     background-color: #1F7D53;
+    margin-right:15px;
+    margin-top: 15px;
     }
 
     .buttonShow{
@@ -83,4 +130,16 @@ justify-content: center;
     .typeDish{
       color:#1F7D53;
       font-weight: bold;
+    }
+
+    @media(max-width:1000px) {
+      .content{
+        width:50%;
+      }
+    }
+
+    @media(max-width:750px){
+      .content{
+        width:100%;
+      }
     }

@@ -44,20 +44,20 @@ setWordSubmitted(mySearch)
 
   return(
     <div  className='App'>
-      <div className='container'>
+      <div className='gallery'>
     <video autoPlay muted loop>
       <source src={video} type="video/mp4"/>
     </video>
     <h1>Find a Recipe</h1>
       </div>
 
-      <div className='container'>
+      <div className='gallery'>
         <form onSubmit={finalSearch}>
           <input className='search' onChange={myRecipeSearch} value={mySearch}/>
         </form>
       </div>
 
-      <div className='container'>
+      <div className='gallery'>
         <button className="buttonSearch" onClick="finalSearch">
           <img src="https://img.icons8.com/fluency/48/000000/fry.png" alt="icon"/>
         </button>
