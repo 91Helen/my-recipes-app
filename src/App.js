@@ -1,74 +1,91 @@
-import { use, useCallback, useEffect, useState } from 'react';
 import './App.css';
+import { useState } from "react";
+import { useEffect } from "react";
+import { Nutrition } from "./Nutrition";
+import { LoaderPage } from "./LoaderPage";
 import video from './cooking-animation.mp4';
-import MyRecipeComponent from './MyRecipeComponent';
 
-function App () {
-  
+function App() {
+const [mySearch, setMySearch] = useState('');
+const [wordSubmitted, setWordSubmitted] = useState('');
+const [myNutrition, setMyNutrition] = useState();
+const [stateLoader, setStateLoader] = useState(false);
+const APP_KEY = 'VgwZGA7OKurpIYShchcQSg==I2aDA2RFhmny24ia';
+const APP_URL = 'https://api.api-ninjas.com/v1/nutrition';
+//https://api.api-ninjas.com/v1/nutrition?query=VgwZGA7OKurpIYShchcQSg==I2aDA2RFhmny24ia
 
-  // https://api.edamam.com/api/recipes/v2?type=public&q=${wordSubmitted}&app_id=15120dae&app_key=b1a9fbc89afe42d79a81a90f5de337c1
-
-  const MY_ID = "15120dae";
-  const MY_KEY = "b1a9fbc89afe42d79a81a90f5de337c1"
-
-  const [mySearch, setMySearch] = useState("");
-  const [myRecipes, setMyRecipes] = useState([]);
-  const [wordSubmitted, setWordSubmitted] = useState("lemon")
-
-useEffect(() => {
-  const getRecipe = async () => {
-    const response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${wordSubmitted}&app_id=${MY_ID}&app_key=${MY_KEY}`);
-    const data = await response.json();
-    setMyRecipes(data.hits);
-    console.log(data.hits);
-  }
-  getRecipe()
-}, [wordSubmitted])
-
-
-const myRecipeSearch = (e) => {
-  setMySearch(e.target.value)
- 
+const fetchData = async () => {
+setStateLoader(true);
+const response = await fetch(`${APP_URL}?query=${mySearch}`, {
+method: "GET",
+headers: {
+'X-Api-Key': APP_KEY,
+},
+});
+if (response.ok) {
+setStateLoader(false);
+const data = await response.json();
+setMyNutrition(data);
+console.log(data)
+} else {
+setStateLoader(false);
+alert('ingredients entered incorrectly');
+}
 }
 
-const finalSearch = (e) => {
-e.preventDefault()
+const myRecipeSearch = e => {
+setMySearch(e.target.value);
+}
+
+const finalSearch = e => {
+e.preventDefault();
 setWordSubmitted(mySearch);
 }
 
-  return(
-    <div  className='App'>
-      <div className='heading'>
-    <video autoPlay muted loop>
-      <source src={video} type="video/mp4"/>
-    </video>
-    <h1>Find a Recipe</h1>
-      </div>
-
-              <div>
-             <form onSubmit={finalSearch} className='container'>
-          <input className='search' onChange={myRecipeSearch} value={mySearch}/>
-          <button  className='buttonSearch' onClick={finalSearch}>
-          <img src="https://img.icons8.com/fluency/48/000000/fry.png" alt="icon" />
-        </button>
-      </form>
-      </div>
-
-   
-       
-
-<div className='cards'>
-      {myRecipes.map(( element, index)=> (
-        <MyRecipeComponent key={index}
-        label={element.recipe.label}
-         image={element.recipe.image} 
-         calories={element.recipe.calories} 
-         ingridients={element.recipe.ingredientLines}
-         mealType={element.recipe.mealType}/>
-      ))}
-      </div>
-      </div>
-  )
+useEffect(() => {
+if (mySearch.trim() !== "") {
+fetchData(mySearch);
 }
+}, [wordSubmitted])
 
+return (
+<div className="App">
+   <div className='heading'>
+      <video autoPlay muted loop>
+         <source src={video} type="video/mp4"/>
+      </video>
+      <h1>Nutrition Analysis</h1>
+
+   </div>
+   {stateLoader && 
+   <LoaderPage />
+   }
+
+   <div>
+      <form onSubmit={finalSearch} className='container'>
+         <input
+            placeholder="Search..."
+            onChange={myRecipeSearch}
+            className='search'
+            />
+         <button type="submit" className='buttonSearch'>Search</button>
+      </form>
+   </div>
+   
+   <div>
+      {myNutrition && (
+      <table  cellPadding="15">
+         <tbody>
+            {Object.entries(myNutrition[0]).map(([key, value]) => (
+            <Nutrition key={key}
+               label={key}
+               quantity={value}/>
+            ))}
+         </tbody>
+      </table>
+      )}
+   </div>
+</div>
+);
+}
 export default App;
